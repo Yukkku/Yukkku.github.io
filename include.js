@@ -158,14 +158,20 @@ footer>div>*{
   </div>
   <div class="top-center">
    <span>
-   <img src="icon.png" height="40px" width="40px">
-   Yukkkuの手帳
+    <a href="https://yukkku.github.io">
+    <img src="icon.png" height="40px" width="40px">
+    Yukkkuの手帳
+    </a>
    </span>
    <span>
-   記事一覧
+    <a href="https://yukkku.github.io/list">
+     記事一覧
+    </a>
    </span>
    <span>
-   情報
+    <a href="https://yukkku.github.io/info">
+     情報
+    </a>
    </span>
   </div>
   <div class="top-right" onclick="showmenu()">
