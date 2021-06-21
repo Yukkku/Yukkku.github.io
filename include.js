@@ -65,6 +65,9 @@ header{
  .top-center>*:first-child{
   border:none;
  }
+ .top-center>span>a{
+  color:#fff;
+ }
 .side{
   position:fixed;
   height:calc(80% - 50px);
