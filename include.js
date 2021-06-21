@@ -56,8 +56,6 @@ header{
  }
  .top-center>*{
   height:36px;
-  display:flex;
-  align-items:center;
   border-left:1px solid #fff;
   padding-left:10px;
   padding-right:10px;
@@ -67,6 +65,9 @@ header{
  }
  .top-center>span>a{
   color:#fff;
+  height:36px;
+  display:flex;
+  align-items:center;
  }
 .side{
   position:fixed;
