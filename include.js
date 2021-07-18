@@ -163,7 +163,7 @@ footer>div>*{
   <div class="top-center">
    <span>
     <a href="https://yukkku.github.io">
-    <img src="icon.png" height="40px" width="40px">
+    <img src="/icon.png" height="40px" width="40px">
     Yukkkuの手帳
     </a>
    </span>
