@@ -1,6 +1,6 @@
 document.head.insertAdjacentHTML(
   "beforeend",
-  '<link rel="icon" href="/favicon.svg">',
+  '<meta name="viewport" content="width=device-width"><link rel="icon" href="/favicon.svg">',
 );
 
 const addHeader = () =>
