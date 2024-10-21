@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8"/>
+  <title>高専プロコン参加記 | Yukkkuの手帳</title>
+  <link rel="stylesheet" href="/main.css"/>
+  <script src="/main.js"></script>
+</head>
+<body>
+  <main>
+    <h1>高専プロコン参加記</h1>
+    <p>決勝8位でした. 参加記を書きます</p>
+    <section>
+      <h2>解法</h2>
+      <p>大体パンフレットに書いてあることと同じです</p>
+      <section>
+        <h3>愚直<math><mn>3</mn><mi>H</mi><mi>W</mi></math>解法</h3>
+        <p><math><mi>bitfloor</mi><mo>(</mo><mi>x</mi><mo>)</mo><mo>≔</mo><msup><mn>2</mn><mrow><mo>⌊</mo><msub><mi>log</mi><mn>2</mn></msub><mo>(</mo><mi>x</mi><mo>)</mo><mo>⌋</mo></mrow></msup></math>とします</p>
+        <p>今回の問題は操作回数の合計を<math><mn>3</mn><mi>H</mi><mi>W</mi></math>回以下に抑えて完全に修復する方法がいくつか存在します. そのうちの1つを紹介</p>
+        <p>左上のマスから1行ずつ直接正しい場所に持っていく方法を考えます</p>
+        <ol>
+          <li>修復したいマスを<math><mi>p</mi><mo>=</mo><mo>(</mo><msub><mi>p</mi><mi>x</mi></msub><mo>,</mo><msub><mi>p</mi><mi>y</mi></msub><mo>)</mo></math>と置きます. そのマスにあるべきピースを未修復の範囲から探し出してその位置を<math><mi>q</mi><mo>=</mo><mo>(</mo><msub><mi>q</mi><mi>x</mi></msub><mo>,</mo><msub><mi>q</mi><mi>y</mi></msub><mo>)</mo></math>と置きます. 整理しておくと, 位置<math><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo></math>について<math><mi>y</mi><mo>&gt;</mo><msub><mi>p</mi><mi>y</mi></msub></math>または<math><mi>y</mi><mo>=</mo><msub><mi>p</mi><mi>y</mi></msub><mo>∧</mo><mi>x</mi><mo>&gt;</mo><msub><mi>p</mi><mi>x</mi></msub></math>を満たすなら未修復で, そうでないなら修復済みです</li>
+          <li><math><mi>p</mi><mo>=</mo><mi>q</mi></math>なら「最初から正しいピースがあった」ということで何もせず終了します</li>
+          <li><math><msub><mi>p</mi><mi>y</mi></msub><mo>=</mo><msub><mi>q</mi><mi>y</mi></msub></math>なら以下を実行して終了です</li>
+          <ol style="list-style-type:lower-roman;">
+            <li>もし<math><msub><mi>q</mi><mi>x</mi></msub><mo>-</mo><msub><mi>p</mi><mi>x</mi></msub></math>が二の冪でないなら位置<math><mo>(</mo><msub><mi>p</mi><mi>x</mi></msub><mo>-</mo><msub><mi>q</mi><mi>x</mi></msub><mo>+</mo><mi>bitfloor</mi><mo>(</mo><msub><mi>q</mi><mi>x</mi></msub><mo>-</mo><msub><mi>p</mi><mi>x</mi></msub><mo>)</mo><mo>+</mo><mn>1</mn><mo>,</mo><msub><mi>p</mi><mi>y</mi></msub><mo>)</mo></math>に十分大きな(256とかの)タイプ3の抜き型で左に寄せます</li>
+            <li>位置<math><mi>p</mi></math>で大きさ<math><mi>bitfloor</mi><mo>(</mo><msub><mi>q</mi><mi>x</mi></msub><mo>-</mo><msub><mi>p</mi><mi>x</mi></msub><mo>)</mo></math>のタイプ1の抜き型を使って左に寄せると位置<math><mi>p</mi></math>に正しいピースが来ます</li>
+          </ol>
+          <li>もし<math><msub><mi>q</mi><mi>x</mi></msub><mo>≠</mo><msub><mi>p</mi><mi>x</mi></msub></math>なら盤面の端でタイプ1の抜き型を横方向にずらして<math><mi>q</mi></math>にあったピースを<math><mi>p</mi></math>の真下に持ってきます (投げやり)</li>
+          <li>i. や ii. でやったのと同じような操作を縦方向にすれば正しい位置にピースを持ってこれます (投げやり)</li>
+        </ol>
+        <p>最悪操作回数は<math><mn>3</mn><mi>H</mi><mi>W</mi></math>回ですが, 実際にこの数字が出ることは殆ど無く, 平均的には<math><mn>0.8</mn><mi>H</mi><mi>W</mi></math>回くらいになります</p>
+      </section>
+      <section>
+        <h3>ビームサーチ</h3>
+        <p>みんなが思いつく通りビームサーチします. ビーム幅は時間を計って残り時間と進捗から最適な幅に調整するようにしました</p>
+      </section>
+      <section>
+        <h3>その他</h3>
+        <p>当然盤面はビット列を使って持ちます</p>
+        <p>で, ビームサーチでの操作列の保持は<a href="https://w.wiki/Bcse">リンクリストみたいにやる</a>と良い感じにできます</p>
+      </section>
+      <section>
+        <h3>環境構成</h3>
+        <p>3台あるPCの内2台が探索用でC++が動きます. もう1台が人間用でTypeScriptが動きます</p>
+        <p>競技サーバーは人間用PCが代表してアクセスし, 問題を取ってきたら探索用PCに送信します. 人間用PCは念のため上記の愚直<math><mn>3</mn><mi>H</mi><mi>W</mi></math>解法 (ビームサーチなし) で解いた手を送信します</p>
+        <p>競技終了数秒前くらいに探索用PCが探索を終え, 人間用PCに解を送信します. ここで手数が最も少ない操作列を競技サーバーに送信します</p>
+        <p>人間用PCについているGUIでは人間が解けるような盤面が来たときに人間が解く, ということができます. 出番はありませんでしたが</p>
+      </section>
+      <section>
+        <h3>出来なかったこと</h3>
+        <p>上の愚直<math><mn>3</mn><mi>H</mi><mi>W</mi></math>解法では1行ずつ修復してますが, これを複数行同時に修復すると手のバリエーションが増えるのでビームサーチが改善します. 最悪<math><mn>5</mn><mi>H</mi><mi>W</mi></math>とかになりますけど平均は下がります</p>
+      </section>
+    </section>
+    <section>
+      <h2>タイムライン</h2>
+      <section>
+        <h3>10/17 (Thu) 以前</h3>
+        <p>eomさんが「<math><mn>256</mn><mo>×</mo><mn>256</mn></math>の盤面で2万手を切った」という誤爆をしたり<a href="https://x.com/eom2357/status/1845409550524141624">平気で<math><mfrac><mn>1</mn><mn>4</mn></mfrac><mi>H</mi><mi>W</mi></math>を前提にするツイート</a>をしたりしてたので八戸は相当強そうという感覚を持ってました. こちとらその時<math><mn>0.35</mn><mi>H</mi><mi>W</mi></math>ですからね</p>
+        <p>eomさんは「他のチームもこれくらい行ってそう」という態度だったのでみんなそれくらい行ってるんだ... と思い込んでました. 実際は八戸だけめちゃ強かったです</p>
+      </section>
+      <section>
+        <h3>10/18 (Fri)</h3>
+        <p>移動部門</p>
+      </section>
+      <section>
+        <h3>10/19 (Sat)</h3>
+        <p>大会1日目</p>
+        <p>予行練習では「愚直<math><mn>3</mn><mi>H</mi><mi>W</mi></math>解法で解を提出した後, 5秒待ってから0.5秒毎に0手の操作列を送り続ける」をしました. 良心が勝って200回無を送信した後プログラムを止めました. なんかすいません</p>
+        <p>他チームがどれくらいのレベル感か分からないまま最初の試合に挑みます. 手の内を明かしたく無かったので愚直<math><mn>3</mn><mi>H</mi><mi>W</mi></math>解法をビームサーチしただけのやつを回して1位通過できました. <span style="font-size:0;">他のチームのレベル感が分からないめっちゃ怖い状況で1位通過したの褒めて欲しい</span></p>
+        <p>他の試合を見てみると八戸がダントツでびっくりしましたが, 解法が私たちが5月に実装したのと見た目が似ていて, 実装できると思いこの時点で徹夜が確定しました. 実装したかったので交流会に参加せずホテルにリターンしてひたすら実装します</p>
+        <p><math><mn>0.34</mn><mi>H</mi><mi>W</mi></math>くらいまでは行きましたが探索したデータから手の復元をするところでバグが取れずに使えませんでした. 結局使えなかったんだから交流会いけば良かったですね</p>
+      </section>
+      <section>
+        <h3>10/20 (Sun)</h3>
+        <p>大会2日目. 本番</p>
+        <p>徹夜実装は3時くらいに寝落ちしてました. 逆にそこまでよく耐えた方だと思います</p>
+        <p>敗者復活戦中に2行同時修復 (<math><mn>0.38</mn><mi>H</mi><mi>W</mi></math>くらい)をマルチスレッド化してそれを準決勝で使おうと思ってましたが, 謎の「最後ちょっとだけ操作が行われない」というバグに見舞われました. 敗者復活戦中ずっとバグの原因を探してましたが見つけられず, 仕方なく1回戦と同じプログラムで挑みました. 徳山には負けましたけど2位で決勝に進めます</p>
+        <p>さて, ここで八戸がまさかの通信エラーということで変な空気感が生まれます</p>
+        <p>とりあえずここまで安定的に動いている「愚直<math><mn>3</mn><mi>H</mi><mi>W</mi></math>解法」をマルチスレッド化して本番で動かそう, ということでそういう実装を間の時間にしました. <math><mn>128</mn><mo>×</mo><mn>128</mn></math>で動作確認をし, ちゃんと動いた. <math><mn>256</mn><mo>×</mo><mn>256</mn></math>でもやると... なんと全く正しく動きません. この時点で12:40 (本番まで20分) Gitに履歴があるので並列化する前のソースに戻しても結果は変わらず. 結局本番までにバグが治りませんでした. 数日前のデバッグではちゃんと動いたんですが何でなんでしょう</p>
+        <p>こうして予行練習から準決勝まで「3台のPCとルーターとごちゃごちゃしたケーブル」という構成だったのが腹を括って1台のPCだけで迎えることになりました. TypeScript側で「絶対正しい手順返すプログラム」を作っておいたので修復できない, という事態は避けられました. まぁ結果は8位ですけどね</p>
+      </section>
+      <section>
+        <h3>10/21 (Mon)</h3>
+        <p>こうして帰りの新幹線の中で参加記を書いて, 全然書ききらなかったので家に帰ってからも書いてるわけです</p>
+      </section>
+    </section>
+    <section>
+      <h2>これを見ている高専プロコン競技部門erへ</h2>
+      <ul>
+        <li>実装より交流会の参加を優先しよう</li>
+        <li>なんか通信とかで不具合があったら焦らずに再起動しよう</li>
+        <li>複数の実装を用意しておいて, 1つバグで使えなくなってもリカバリできるようにしよう</li>
+        <li>ほんとに徹底的にデバッグしよう</li>
+      </ul>
+    </section>
+    <p>以上です, ごきげんよう</p>
+  </main>
+</body>
+</html>
