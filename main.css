@@ -46,10 +46,6 @@ main {
   padding: 0 8px 2rem 6px;
   border-left: 2px graytext solid;
 
-  & :where(:any-link) {
-    text-decoration: none;
-  }
-
   & section {
   padding: 0 0 5px 6px;
   border-left: 2px graytext solid;
